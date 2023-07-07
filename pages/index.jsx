@@ -1,13 +1,24 @@
+import { useState, useEffect } from "react";
 import Card from '@/components/Card/Card'
 import Button from '@/components/Button/Button'
 import Link from '@/components/Link/Link'
 import TagsFilter from '@/components/TagsFilter/TagsFilter';
-
-import articles from '@/data/articles.json';
 import filters from '@/data/filters.json';
 
 
 function Home() {
+
+	const [articles, setArticles] = useState([]);
+
+  useEffect(() => {
+    async function fetchPosts() {
+      const jsonResponse = await fetch("/api/posts").then((data) => data.json());
+
+      setArticles(jsonResponse);
+    }
+
+    fetchPosts();
+  }, []);
   
   return (
     <>
@@ -43,10 +54,7 @@ function Home() {
         isReversed={isReversed}/>
         
       })}
-        
-
-
-				</div>
+    				</div>
 			</section>
 		</main>
 	</div>
